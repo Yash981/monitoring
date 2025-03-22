@@ -1,4 +1,4 @@
-# monitor
+# monitoring
 
 To install dependencies:
 

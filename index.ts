@@ -6,8 +6,16 @@ export const requestCounter = new client.Counter({
     help: 'Total number of HTTP requests',
     labelNames: ['method', 'route', 'status_code']
 });
-
-
+export const activeRequestsGauge = new client.Gauge({
+    name: 'active_requests',
+    help: 'Number of active requests',
+});
+export const httpRequestDurationMicroseconds = new client.Histogram({
+    name: 'http_request_duration_ms',
+    help: 'Duration of HTTP requests in ms',
+    labelNames: ['method', 'route', 'code'],
+    buckets: [0.1, 5, 15, 50, 100, 300, 500, 1000, 3000, 5000] 
+})
 const app = express();
 
 app.use(express.json());
@@ -15,9 +23,10 @@ app.use(express.json());
 
 app.use(requestCountMiddleware)
 app.get("/user",async (req, res) => {
-    for (let i = 0; i < 1000000000; i++) {
-        continue
-    }
+    // for (let i = 0; i < 1000000000; i++) {
+    //     continue
+    // }
+    await new Promise((resolve,reject)=>{setTimeout(()=>{resolve(true)},1000)})
     res.send({
         name: "John Doe",
         age: 25,
