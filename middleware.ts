@@ -21,7 +21,6 @@ export const requestCountMiddleware = (
 
   res.on("finish", () => {
     // console.log(req.path,req.route,'route')
-    if (req.path !== "/metrics") {
       const endTime = Date.now();
       const duration = endTime - startTime;
       console.log(`Request took ${endTime - startTime}ms`);
@@ -40,7 +39,6 @@ export const requestCountMiddleware = (
         duration
       );
       activeRequestsGauge.dec();
-    }
   });
 
   next();
